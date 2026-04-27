@@ -13,7 +13,7 @@
 in documents, code files, images, and videos — giving you a precise confidence score,
 model-style attribution (ChatGPT-like, Gemini-like, Claude-like), and highlighted passages.
 
-[🌐 Live Demo](https://ai-sentinel.vercel.app) · [📡 API](https://MohammadSakibAhmad0874-ai-sentinel.hf.space/api/docs) · [🐛 Issues](https://github.com/MohammadSakibAhmad0874/AI-Sentinel/issues)
+[🌐 Live Demo](https://ai-sentinel-kislay.vercel.app) · [📡 API](https://MohammadSakibAhmad0874-ai-sentinel.hf.space/api/docs) · [🐛 Issues](https://github.com/MohammadSakibAhmad0874/AI-Sentinel/issues)
 
 </div>
 
