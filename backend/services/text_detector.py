@@ -34,9 +34,11 @@ def _query_hf(text: str, retries: int = 3) -> float:
     for attempt in range(retries):
         try:
             r = requests.post(API_URL, headers=_headers(), json=payload, timeout=35)
+            print(f"[HF API] status={r.status_code}")
 
             if r.status_code == 503:
                 wait = min(25, 8 * (attempt + 1))
+                print(f"[HF API] Model loading, retrying in {wait}s...")
                 time.sleep(wait)
                 continue
 
@@ -46,15 +48,23 @@ def _query_hf(text: str, retries: int = 3) -> float:
 
             if r.status_code == 200:
                 data = r.json()
+                print(f"[HF API] raw response: {str(data)[:200]}")
                 # Shape: [[{label, score}, ...]]  or [{label, score}, ...]
                 items = data[0] if (isinstance(data, list) and isinstance(data[0], list)) else data
                 for item in items:
-                    label = item.get("label", "").lower()
+                    label = item.get("label", "").lower().strip()
                     score = float(item.get("score", 0))
-                    if label in ("chatgpt", "ai", "generated", "fake", "machine"):
+                    # Handle all known label variants from this model family
+                    if label in ("chatgpt", "ai", "generated", "fake", "machine", "label_1", "gpt"):
                         return score
-                    elif label in ("human", "real", "authentic"):
+                    elif label in ("human", "real", "authentic", "label_0"):
                         return 1.0 - score
+                # If labels don't match known patterns, take the highest score with non-human label
+                print(f"[HF API] Unknown labels in response: {items}")
+                if items:
+                    # Assume first item is the AI label if we can't determine
+                    scores = [float(i.get("score", 0)) for i in items]
+                    return max(scores)
 
         except Exception as e:
             print(f"[HF API] Error attempt {attempt + 1}: {e}")
@@ -166,8 +176,10 @@ def detect_text(text: str) -> Dict:
     return {
         "ai_percent":         ai_pct,
         "human_percent":      hum_pct,
+        "is_ai":              ai_pct >= 50,
         "model_attribution":  _estimate_attribution(text, overall),
         "chunks":             chunk_results,
+        "method":             "huggingface_api",
         "disclaimer": (
             "AI Probability is based on writing-style analysis. "
             "Model attribution (ChatGPT-like, Gemini-like, etc.) is heuristic-based "
