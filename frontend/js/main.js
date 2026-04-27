@@ -6,6 +6,10 @@
 // API_BASE is set by js/config.js (auto-detects local vs production)
 const API_BASE = window.SENTINEL_API_BASE || 'http://localhost:8000/api';
 
+// Mark body as JS-ready so CSS reveal animations activate
+document.documentElement.classList.add('js-ready');
+document.body.classList.add('js-ready');
+
 /* ══════════════════════════════════════
    TYPEWRITER
 ══════════════════════════════════════ */
@@ -60,11 +64,19 @@ window.addEventListener('scroll', () => {
    SCROLL REVEAL
 ══════════════════════════════════════ */
 const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+}, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
   .forEach(el => revealObserver.observe(el));
+
+// Force-reveal elements already in viewport on page load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('visible');
+  });
+});
 
 /* ══════════════════════════════════════
    STATS COUNTER ANIMATION
@@ -85,7 +97,7 @@ function animateCounters() {
 }
 const statsObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { animateCounters(); statsObserver.disconnect(); } });
-}, { threshold: 0.5 });
+}, { threshold: 0 });
 const statsBar = document.querySelector('.stats-bar');
 if (statsBar) statsObserver.observe(statsBar);
 

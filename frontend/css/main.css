@@ -823,15 +823,16 @@ section { padding: 6rem 2rem; }
 /* ══════════════════════════════════════════════════════════
    REVEAL (scroll-triggered)
 ══════════════════════════════════════════════════════════ */
-.reveal {
+/* Only hide reveal elements when JS has confirmed it's running */
+body.js-ready .reveal {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity .7s var(--ease), transform .7s var(--ease);
 }
-.reveal.visible { opacity: 1; transform: none; }
-.reveal-left  { opacity: 0; transform: translateX(-40px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.reveal-right { opacity: 0; transform: translateX(40px);  transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+body.js-ready .reveal.visible { opacity: 1; transform: none; }
+body.js-ready .reveal-left  { opacity: 0; transform: translateX(-40px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+body.js-ready .reveal-right { opacity: 0; transform: translateX(40px);  transition: opacity .7s var(--ease), transform .7s var(--ease); }
+body.js-ready .reveal-left.visible, body.js-ready .reveal-right.visible { opacity: 1; transform: none; }
 
 /* Stagger delays */
 .delay-1 { transition-delay: .1s; }
