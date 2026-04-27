@@ -7,7 +7,7 @@
  * Format: https://<your-hf-username>-ai-sentinel.hf.space/api
  */
 
-const PROD_API_BASE = 'https://MohammadSakibAhmad0874-ai-sentinel.hf.space/api';
+const PROD_API_BASE = 'https://skillsinventor-ai-sentinel.hf.space/api';
 const LOCAL_API_BASE = 'http://localhost:8000/api';
 
 const IS_LOCAL = (
