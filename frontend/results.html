@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results — AI Sentinel</title>
+  <meta name="description" content="View your AI content detection analysis results from AI Sentinel." />
+  <link rel="stylesheet" href="css/results.css" />
+</head>
+<body>
+
+<!-- ══════════ RESULTS HEADER ══════════ -->
+<header class="results-header">
+  <button class="back-btn" id="btn-back" onclick="window.location.href='/'">
+    ← Back
+  </button>
+  <div class="results-logo">🛡️ AI <span class="dot">Sentinel</span></div>
+  <div class="action-btns">
+    <button class="btn-action btn-copy"   id="btn-copy">   📋 Copy AI Text</button>
+    <button class="btn-action btn-export" id="btn-export"> 📄 Export Report</button>
+    <button class="btn-action btn-new"    id="btn-new">    ＋ New Analysis</button>
+  </div>
+</header>
+
+<!-- ══════════ EMPTY STATE ══════════ -->
+<div class="state-empty" id="empty-state" style="display:none">
+  <div class="icon">🔍</div>
+  <h2>No Results Found</h2>
+  <p>It looks like you haven't run an analysis yet.</p>
+  <a href="/" class="btn-action btn-export" style="display:inline-flex">Start Analysis →</a>
+</div>
+
+<!-- ══════════ MAIN RESULTS ══════════ -->
+<main class="results-main" id="results-content">
+
+  <!-- File info bar -->
+  <div class="file-info-bar">
+    <div class="file-icon-lg" id="file-icon-lg">📄</div>
+    <div class="file-meta">
+      <h2 id="result-filename">Analysing…</h2>
+      <p id="result-meta">—</p>
+    </div>
+    <span class="file-type-badge" id="file-type-badge">Text</span>
+  </div>
+
+  <!-- Summary row: donut + attribution -->
+  <div class="summary-row">
+
+    <!-- Donut -->
+    <div class="donut-card">
+      <div class="donut-wrapper">
+        <svg class="donut-svg" width="180" height="180" viewBox="0 0 180 180">
+          <circle class="donut-bg"    cx="90" cy="90" r="80" />
+          <circle class="donut-human" cx="90" cy="90" r="80" id="donut-human" />
+          <circle class="donut-ai"    cx="90" cy="90" r="80" id="donut-ai"    />
+        </svg>
+        <div class="donut-center">
+          <div class="donut-pct" id="donut-pct">—</div>
+          <div class="donut-sub" id="donut-sub">AI Content</div>
+        </div>
+      </div>
+
+      <div class="donut-legend">
+        <div class="legend-item">
+          <span class="legend-dot" style="background:var(--ember)"></span>
+          <span class="legend-label">AI-Generated</span>
+          <span class="legend-pct" style="color:var(--ember)" id="legend-ai-pct">—%</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:var(--jade)"></span>
+          <span class="legend-label">Human-Written</span>
+          <span class="legend-pct" style="color:var(--jade)" id="legend-hum-pct">—%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Model attribution -->
+    <div class="attribution-card">
+      <h3 class="attr-title">Estimated Model-Style Probabilities</h3>
+      <p class="attr-subtitle">Based on writing-style heuristics — see disclaimer below.</p>
+      <div class="model-bars" id="model-bars">
+        <!-- Populated by results.js -->
+      </div>
+      <div class="attr-disclaimer">
+        ⚠️ <strong>Disclaimer:</strong> Model attribution (ChatGPT-like, Gemini-like, etc.) is
+        <strong>heuristic-based and NOT guaranteed</strong> to be scientifically accurate.
+        Results are probabilistic estimates intended as guidance only — not for legal or academic enforcement.
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="result-tabs">
+    <button class="tab-btn active" data-tab="text-tab-panel">📝 Content View</button>
+    <button class="tab-btn"        data-tab="media-tab-panel">🖼️ Media View</button>
+  </div>
+
+  <!-- ── TEXT / HIGHLIGHT PANEL ── -->
+  <div class="tab-panel" id="text-tab-panel">
+    <div class="highlight-panel">
+      <div class="highlight-legend">
+        <span class="hl-legend-item">
+          <span class="hl-dot" style="background:rgba(255,107,53,.5)"></span>
+          ChatGPT-style AI
+        </span>
+        <span class="hl-legend-item">
+          <span class="hl-dot" style="background:rgba(252,222,156,.5)"></span>
+          Gemini-style AI
+        </span>
+        <span class="hl-legend-item">
+          <span class="hl-dot" style="background:rgba(195,66,63,.5)"></span>
+          Claude-style AI
+        </span>
+        <span class="hl-legend-item">
+          <span class="hl-dot" style="background:var(--bg-2); border:1px solid var(--border)"></span>
+          Human-written
+        </span>
+      </div>
+      <div class="highlight-content" id="highlight-content">
+        <!-- Populated by results.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MEDIA PANEL ── -->
+  <div class="tab-panel hidden" id="media-tab-panel">
+    <div class="media-result">
+
+      <div class="verdict-badge ai" id="media-verdict">—</div>
+      <p style="color:var(--txt-2); font-size:.9rem" id="media-confidence"></p>
+      <p style="color:var(--txt-3); font-size:.82rem; margin-top:.3rem" id="media-method"></p>
+      <p style="color:var(--ember); font-size:.82rem; margin-top:.3rem; display:none"
+         id="media-markers"></p>
+
+      <!-- Video-only info -->
+      <p style="color:var(--txt-2); font-size:.85rem; margin-top:.5rem" id="video-frames-info"></p>
+
+      <!-- Video timeline -->
+      <div class="video-timeline" id="video-timeline" style="display:none">
+        <p class="timeline-title">Frame-by-Frame Detection Timeline</p>
+        <div class="timeline-bar" id="video-timeline-bar"></div>
+        <div class="timeline-labels" id="timeline-labels"></div>
+        <div style="display:flex; gap:1.5rem; margin-top:.75rem; font-size:.78rem; color:var(--txt-2)">
+          <span><span style="color:var(--ember)">■</span> AI frames</span>
+          <span><span style="color:var(--jade)">■</span> Human frames</span>
+        </div>
+      </div>
+
+      <div class="attr-disclaimer" style="margin-top:1.5rem">
+        ⚠️ Image/Video detection uses visual pattern analysis and may not be 100% accurate.
+        Metadata markers (Stable Diffusion, DALL-E, etc.) are reliable when present.
+        Visual analysis results are estimates only.
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Tooltip -->
+<div class="chunk-tooltip" id="chunk-tooltip"></div>
+
+<!-- Toast -->
+<div class="copy-toast" id="copy-toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/results.js"></script>
+<script>
+  // Show video timeline if it's a video result
+  document.addEventListener('DOMContentLoaded', () => {
+    const raw = sessionStorage.getItem('sentinel_result');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.file_type === 'video' && d.frame_results?.length) {
+      const tl = document.getElementById('video-timeline');
+      if (tl) tl.style.display = 'block';
+    }
+    // Activate tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+        btn.classList.add('active');
+        const panel = document.getElementById(btn.dataset.tab);
+        if (panel) panel.classList.remove('hidden');
+      });
+    });
+  });
+</script>
+</body>
+</html>

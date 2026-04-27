@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Sentinel — AI Content Detector & Plagiarism Scanner</title>
+  <meta name="description" content="Detect ChatGPT, Gemini, Claude & Grok AI-generated content in any file. Scan documents, images, videos, and code with AI Sentinel." />
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="header" id="header">
+  <div class="logo">
+    <div class="logo-icon">🛡️</div>
+    <span class="logo-text">AI <span>Sentinel</span></span>
+  </div>
+  <nav>
+    <ul class="nav">
+      <li><a href="#how-it-works">How it Works</a></li>
+      <li><a href="#what-we-detect">Detect</a></li>
+      <li><a href="#upload">Try it</a></li>
+    </ul>
+  </nav>
+  <a href="#upload" class="btn-header">Analyse Now →</a>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="hero">
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Floating file type badges -->
+  <div class="hero-floats" aria-hidden="true">
+    <div class="float-badge">📄 PDF</div>
+    <div class="float-badge">📝 DOCX</div>
+    <div class="float-badge">🖼️ Images</div>
+    <div class="float-badge">🎬 Videos</div>
+    <div class="float-badge">🐍 Code</div>
+    <div class="float-badge">📊 PPTX</div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      AI Detection Platform · v1.0
+    </div>
+
+    <h1 class="hero-title">
+      <span class="line1">Expose the</span>
+      <span class="line2">AI Behind Any File</span>
+    </h1>
+
+    <p class="hero-typewriter">
+      <span id="typewriter-text"></span><span class="typewriter-cursor"></span>
+    </p>
+
+    <p class="hero-desc">
+      Upload any document, image, video, or paste text — AI Sentinel
+      analyses it for ChatGPT, Gemini, Claude, Grok and other AI signals,
+      giving you a precise confidence score with highlighted passages.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#upload" class="btn-primary">🔍 Analyse a File</a>
+      <a href="#upload" class="btn-secondary">✏️ Paste Text</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STATS BAR ══════════ -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div>
+      <div class="stat-num"><span data-count="15" data-suffix="+">0+</span></div>
+      <div class="stat-label">File Formats</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div>
+      <div class="stat-num"><span data-count="6" data-suffix="">0</span></div>
+      <div class="stat-label">AI Models Tracked</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div>
+      <div class="stat-num"><span data-count="100" data-suffix="%">0%</span></div>
+      <div class="stat-label">Privacy First</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div>
+      <div class="stat-num"><span data-count="0" data-suffix=" ms">0 ms</span></div>
+      <div class="stat-label">Data Stored</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="how-section" id="how-it-works">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:.5rem">
+      <span class="section-tag reveal">⚙️ Process</span>
+    </div>
+    <h2 class="section-title reveal" style="text-align:center">How It <span>Works</span></h2>
+    <p class="section-subtitle reveal" style="text-align:center; margin:0 auto 1rem">
+      Three steps to uncover AI-generated content in any file.
+    </p>
+
+    <div class="steps-grid">
+      <div class="step-card reveal delay-1">
+        <div class="step-num">01</div>
+        <div class="step-icon">📁</div>
+        <h3 class="step-title">Upload Your File</h3>
+        <p class="step-desc">Drag &amp; drop any document, image, or video — or simply paste text directly. We support PDF, DOCX, PPTX, code files, JPG, PNG, MP4 and more.</p>
+      </div>
+      <div class="step-card reveal delay-2">
+        <div class="step-num">02</div>
+        <div class="step-icon">🔬</div>
+        <h3 class="step-title">Deep AI Analysis</h3>
+        <p class="step-desc">Our engine extracts text, images, and video frames then runs them through state-of-the-art HuggingFace models to compute AI probability scores.</p>
+      </div>
+      <div class="step-card reveal delay-3">
+        <div class="step-num">03</div>
+        <div class="step-icon">📊</div>
+        <h3 class="step-title">Detailed Report</h3>
+        <p class="step-desc">Get a full breakdown — overall AI %, per-model attribution, highlighted passages, video timeline, and a downloadable report you can share.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHAT WE DETECT ══════════ -->
+<section id="what-we-detect" style="background:var(--bg-0)">
+  <div class="container">
+    <span class="section-tag reveal">🎯 Coverage</span>
+    <h2 class="section-title reveal">What We <span>Detect</span></h2>
+    <p class="section-subtitle reveal">Every file type, every format, every corner.</p>
+
+    <div class="detect-grid" style="margin-top:3rem">
+      <div class="detect-card reveal delay-1">
+        <div class="detect-icon">📄</div>
+        <h3 class="detect-title">Documents</h3>
+        <div class="detect-tags">
+          <span class="tag">.pdf</span><span class="tag">.docx</span><span class="tag">.pptx</span>
+          <span class="tag">.txt</span><span class="tag">.md</span>
+        </div>
+      </div>
+      <div class="detect-card reveal delay-2">
+        <div class="detect-icon">🐍</div>
+        <h3 class="detect-title">Code Files</h3>
+        <div class="detect-tags">
+          <span class="tag">.py</span><span class="tag">.js</span><span class="tag">.java</span>
+          <span class="tag">.cpp</span><span class="tag">.go</span><span class="tag">+20</span>
+        </div>
+      </div>
+      <div class="detect-card reveal delay-3">
+        <div class="detect-icon">🖼️</div>
+        <h3 class="detect-title">Images</h3>
+        <div class="detect-tags">
+          <span class="tag">.jpg</span><span class="tag">.png</span><span class="tag">.webp</span>
+          <span class="tag">.gif</span><span class="tag">.bmp</span>
+        </div>
+      </div>
+      <div class="detect-card reveal delay-4">
+        <div class="detect-icon">🎬</div>
+        <h3 class="detect-title">Videos</h3>
+        <div class="detect-tags">
+          <span class="tag">.mp4</span><span class="tag">.mov</span><span class="tag">.webm</span>
+        </div>
+        <p style="font-size:.75rem; color:var(--txt-3); margin-top:.5rem">Max 2 min · 100 MB</p>
+      </div>
+      <div class="detect-card reveal delay-5">
+        <div class="detect-icon">✏️</div>
+        <h3 class="detect-title">Plain Text</h3>
+        <div class="detect-tags">
+          <span class="tag">Essays</span><span class="tag">Reports</span><span class="tag">Articles</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Models we track -->
+    <div style="margin-top:4rem; text-align:center">
+      <p class="section-tag reveal" style="justify-content:center">🤖 AI Models Tracked</p>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:1.5rem">
+        <span class="model-badge">🤖 ChatGPT / GPT-4</span>
+        <span class="model-badge">✨ Google Gemini</span>
+        <span class="model-badge">🔮 Claude (Anthropic)</span>
+        <span class="model-badge">⚡ Grok (xAI)</span>
+        <span class="model-badge">🌐 LLaMA / Mistral</span>
+        <span class="model-badge">🎨 Stable Diffusion</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ UPLOAD ZONE ══════════ -->
+<section class="upload-section" id="upload">
+  <div class="container">
+    <span class="section-tag reveal">🚀 Try It Now</span>
+    <h2 class="section-title reveal">Analyse <span>Your Content</span></h2>
+    <p class="section-subtitle reveal">Upload a file or paste text below. Results in seconds.</p>
+
+    <div class="upload-container">
+
+      <!-- Drop Zone -->
+      <div>
+        <div class="drop-zone reveal reveal-left" id="drop-zone" tabindex="0" role="button" aria-label="Upload file">
+          <div class="drop-orbital" aria-hidden="true"></div>
+          <div class="drop-icon">📂</div>
+          <h3 class="drop-title">Drop your file here</h3>
+          <p class="drop-hint">or <span>click to browse</span></p>
+          <div class="file-formats">
+            <span class="format-chip">pdf</span>
+            <span class="format-chip">docx</span>
+            <span class="format-chip">pptx</span>
+            <span class="format-chip">txt</span>
+            <span class="format-chip">py / js / cpp</span>
+            <span class="format-chip">jpg / png</span>
+            <span class="format-chip">mp4 / mov</span>
+          </div>
+        </div>
+        <input type="file" id="file-input"
+          accept=".pdf,.docx,.pptx,.txt,.md,.py,.js,.ts,.jsx,.tsx,.html,.css,.java,.cpp,.c,.go,.rs,.rb,.php,.swift,.kt,.sql,.json,.xml,.yaml,.jpg,.jpeg,.png,.gif,.bmp,.webp,.mp4,.mov,.webm" />
+
+        <div class="selected-file" id="selected-file">
+          <span id="file-icon-selected" style="font-size:1.8rem">📄</span>
+          <div class="file-info">
+            <div class="file-name" id="file-name-display">filename.pdf</div>
+            <div class="file-size" id="file-size-display">0 KB</div>
+          </div>
+          <button class="btn-remove-file" id="remove-file" aria-label="Remove file">✕</button>
+        </div>
+
+        <button class="btn-analyze" id="btn-analyze-file" style="margin-top:1.2rem">
+          🔍 Analyse File
+        </button>
+      </div>
+
+      <!-- Text Paste Panel -->
+      <div class="text-panel reveal reveal-right">
+        <label for="text-input">✏️ Or paste text directly</label>
+        <textarea
+          id="text-input"
+          placeholder="Paste any essay, article, report, or code here… (minimum 20 characters)"
+          spellcheck="false"
+        ></textarea>
+        <button class="btn-analyze" id="btn-analyze-text">
+          🔍 Analyse Text
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SCAN OVERLAY ══════════ -->
+<div class="scan-overlay" id="scan-overlay" role="dialog" aria-live="polite">
+  <div class="scan-ring">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="scan-ring-icon">🛡️</div>
+  </div>
+  <h2 class="scan-title">AI Sentinel Scanning…</h2>
+  <p class="scan-status" id="scan-status">Preparing…</p>
+  <div class="scan-progress-bar">
+    <div class="scan-progress-fill" id="scan-progress-fill"></div>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:.8rem">
+        <div class="logo-icon">🛡️</div>
+        <span class="logo-text">AI <span>Sentinel</span></span>
+      </div>
+      <p class="footer-desc">
+        Detect AI-generated content across documents, images, and videos.
+        Built for students, educators, journalists, and content creators.
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>Features</h4>
+      <ul>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#what-we-detect">File Types</a></li>
+        <li><a href="#upload">Try It Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">API Docs</a></li>
+        <li><a href="#">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 <span>AI Sentinel</span>. Built with ❤️ using FastAPI + HuggingFace.</p>
+    <p class="disclaimer-text">
+      ⚠️ Results are probabilistic, not definitive. Model attribution is heuristic-based.
+    </p>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

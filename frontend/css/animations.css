@@ -1,0 +1,177 @@
+/* ═══════════════════════════════════════════════════════
+   AI SENTINEL — ANIMATIONS CSS
+   ═══════════════════════════════════════════════════════ */
+
+/* ── KEYFRAMES ──────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: .6; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes float-drift {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(1deg); }
+  66%       { transform: translateY(6px) rotate(-1deg); }
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hero-glow-pulse {
+  0%, 100% { opacity: .15; }
+  50%       { opacity: .35; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes drop-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,53,0); }
+  50%       { box-shadow: 0 0 30px 8px rgba(255,107,53,.15); }
+}
+
+@keyframes scan-wave {
+  0%   { transform: scaleX(0); transform-origin: left; }
+  50%  { transform: scaleX(1); transform-origin: left; }
+  51%  { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes draw-circle {
+  from { stroke-dashoffset: 502; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes bar-grow {
+  from { width: 0; }
+}
+
+/* ── HERO RADIAL GLOW ────────────────────────────────────── */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(255,107,53,.12) 0%, transparent 70%);
+  pointer-events: none;
+  animation: hero-glow-pulse 4s ease infinite;
+}
+
+/* ── ANIMATED GRADIENT TEXT ──────────────────────────────── */
+.gradient-text-animated {
+  background: linear-gradient(270deg, var(--ember), var(--honey), var(--peach), var(--terra));
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 5s ease infinite;
+}
+
+/* ── SHIMMER LOADING ─────────────────────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-card) 25%, rgba(255,107,53,.08) 50%, var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* ── HERO ENTRANCE ───────────────────────────────────────── */
+.hero-badge  { animation: fade-in-up .6s var(--ease) .1s both; }
+.hero-title  { animation: fade-in-up .7s var(--ease) .25s both; }
+.hero-typewriter { animation: fade-in-up .6s var(--ease) .45s both; }
+.hero-desc   { animation: fade-in-up .6s var(--ease) .6s both; }
+.hero-actions { animation: fade-in-up .6s var(--ease) .75s both; }
+.float-badge { animation: float-drift 8s ease-in-out infinite; }
+
+/* ── DROP ZONE ANIMATION ─────────────────────────────────── */
+.drop-zone:focus-within, .drop-zone.active {
+  animation: drop-pulse 2s ease infinite;
+}
+
+/* ── SCAN STEPS TEXT CYCLING ─────────────────────────────── */
+.scan-status {
+  animation: fade-in-up .4s var(--ease);
+}
+
+/* ── STEP CARD ICON HOVER ────────────────────────────────── */
+.step-card:hover .step-icon {
+  animation: float-drift 2s ease-in-out infinite;
+}
+
+/* ── DETECT CARD HOVER GLOW ──────────────────────────────── */
+.detect-card:hover .detect-icon {
+  filter: drop-shadow(0 0 16px rgba(255,107,53,.6));
+  transform: scale(1.1);
+  transition: all .3s var(--ease);
+}
+
+/* ── BUTTON RIPPLE ───────────────────────────────────────── */
+.btn-primary, .btn-analyze {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after, .btn-analyze::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.btn-primary:active::after, .btn-analyze:active::after { opacity: 1; }
+
+/* ── PARTICLE CANVAS FADE ────────────────────────────────── */
+#particle-canvas {
+  animation: fade-in-up 1s ease .1s both;
+}
+
+/* ── TAB UNDERLINE SLIDE ─────────────────────────────────── */
+.tab-btn { position: relative; }
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ember), var(--honey));
+  border-radius: 1px;
+  animation: bar-grow .3s var(--ease);
+}
+
+/* ── ORBITAL FLOAT BADGES (hero) ─────────────────────────── */
+.float-badge { opacity: 0; animation: fade-in-up .6s var(--ease) 1s both, float-drift 8s ease-in-out 1.6s infinite; }
+.float-badge:nth-child(1) { animation-delay: 1.0s, 1.6s; }
+.float-badge:nth-child(2) { animation-delay: 1.2s, 1.8s; }
+.float-badge:nth-child(3) { animation-delay: 1.4s, 2.0s; }
+.float-badge:nth-child(4) { animation-delay: 1.6s, 2.2s; }
+.float-badge:nth-child(5) { animation-delay: 1.8s, 2.4s; }
+.float-badge:nth-child(6) { animation-delay: 2.0s, 2.6s; }
