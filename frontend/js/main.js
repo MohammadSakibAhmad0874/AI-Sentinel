@@ -191,6 +191,28 @@ function hideScanOverlay() {
 }
 
 /* ══════════════════════════════════════
+   FETCH HELPER (with timeout + error clarity)
+══════════════════════════════════════ */
+async function fetchDetect(form) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 60000); // 60s timeout
+  try {
+    const res = await fetch(`${API_BASE}/detect`, {
+      method: 'POST',
+      body: form,
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    return res;
+  } catch (err) {
+    clearTimeout(timer);
+    if (err.name === 'AbortError') throw new Error('Request timed out (60s). The backend may be waking up — please try again in 10 seconds.');
+    if (!navigator.onLine) throw new Error('No internet connection.');
+    throw new Error('Cannot reach the AI Sentinel backend. If this is your first request, the server may be waking up (takes ~30s). Please try again.');
+  }
+}
+
+/* ══════════════════════════════════════
    ANALYSE — FILE
 ══════════════════════════════════════ */
 analyzeBtn?.addEventListener('click', async () => {
@@ -201,7 +223,7 @@ analyzeBtn?.addEventListener('click', async () => {
   form.append('file', selectedFile);
 
   try {
-    const res  = await fetch(`${API_BASE}/detect`, { method: 'POST', body: form });
+    const res  = await fetchDetect(form);
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Detection failed.');
     sessionStorage.setItem('sentinel_result', JSON.stringify(data));
@@ -209,7 +231,7 @@ analyzeBtn?.addEventListener('click', async () => {
     window.location.href = '/results';
   } catch (err) {
     hideScanOverlay();
-    alert(`Error: ${err.message}`);
+    alert(`❌ ${err.message}`);
   }
 });
 
@@ -228,7 +250,7 @@ textAnalyzeBtn?.addEventListener('click', async () => {
   form.append('text', txt);
 
   try {
-    const res  = await fetch(`${API_BASE}/detect`, { method: 'POST', body: form });
+    const res  = await fetchDetect(form);
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Detection failed.');
     sessionStorage.setItem('sentinel_result', JSON.stringify(data));
@@ -236,7 +258,7 @@ textAnalyzeBtn?.addEventListener('click', async () => {
     window.location.href = '/results';
   } catch (err) {
     hideScanOverlay();
-    alert(`Error: ${err.message}`);
+    alert(`❌ ${err.message}`);
   }
 });
 
